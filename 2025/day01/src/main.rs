@@ -3,16 +3,21 @@ use std::env;
 use std::fs;
 
 fn get_lists_from_file(file_path: String) -> Vec<(char, i32)> {
-  let contents = fs::read_to_string(file_path)
-      .expect(r#"Should have been able to read the file"#);
+    let contents =
+        fs::read_to_string(file_path).expect(r#"Should have been able to read the file"#);
 
-  contents.split("\n")
-    .map(|s| {
-        let mut all_chars = s.trim().chars();
-        let direction = all_chars.nth(0).unwrap_or_default();
-        let distance = all_chars.collect::<String>().parse::<i32>().unwrap_or_default();
-        (direction, distance)
-    }).collect::<Vec<(char, i32)>>()
+    contents
+        .split("\n")
+        .map(|s| {
+            let mut all_chars = s.trim().chars();
+            let direction = all_chars.nth(0).unwrap_or_default();
+            let distance = all_chars
+                .collect::<String>()
+                .parse::<i32>()
+                .unwrap_or_default();
+            (direction, distance)
+        })
+        .collect::<Vec<(char, i32)>>()
 }
 
 fn main() {
@@ -20,12 +25,13 @@ fn main() {
         println!("Arg {}: {}", i, arg);
     });
 
-    let file_path = String::from(r#"c:\repos\aoc2025\day01\big.txt"#);
-    
+    let file_path = String::from(r#"c:\repos\aoc\2025\day01\big.txt"#);
+
     let instructions = get_lists_from_file(file_path);
 
     let mut mutable_instructions = instructions
-        .iter().map(|instruction| {
+        .iter()
+        .map(|instruction| {
             let (direction, step) = *instruction;
             match direction {
                 'L' => -step,
@@ -56,8 +62,7 @@ fn main() {
 
         cursor_points_at_zero = cursor == 0;
     });
-    let password:i32 = mutable_instructions.iter().sum();
+    let password: i32 = mutable_instructions.iter().sum();
 
     println!("The password is `{}`", password);
-
 }
